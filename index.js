@@ -90,7 +90,30 @@ async function run(){
             res.send(result);
         })
 
-      
+        //order collection API
+
+        app.get('/item', verifyJWT, async(req, res)=>{
+            const decodedEmail = req.decoded.email;
+            const email = req.query.email;
+            // console.log(email);
+            if(email === decodedEmail){
+                const query = {email: email};
+                const cursor = itemCollection.find(query);
+                const items = await cursor.toArray();
+                res.send(items);
+            }
+            else{
+                res.status(403).send({message: 'forbidden access'})
+            }
+        })
+
+
+        app.post('/item', async(req, res)=>{
+            const order = req.body;
+            const result = await itemCollection.insertOne(item);
+            res.send(result);
+        })
+
       
        
     
