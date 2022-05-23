@@ -65,7 +65,24 @@ async function run(){
             const result = await furnitureCollection.insertOne(newProduct);
             res.send(result);
         });
+         // put item
+         app.put('/product/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id);
+            const quantityUpdate = req.body;
+            console.log(quantityUpdate);
+            const query = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    quantity : quantityUpdate.quantity,
+                }
+            };
+            const result = await furnitureCollection.updateOne(query, updateDoc, options);
+            res.send(result);
+        });
 
+      
        
     
     }
