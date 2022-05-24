@@ -68,9 +68,9 @@ async function run(){
          // put item
          app.put('/product/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id);
+            // console.log(id);
             const quantityUpdate = req.body;
-            console.log(quantityUpdate);
+            // console.log(quantityUpdate);
             const query = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updateDoc = {
@@ -83,7 +83,7 @@ async function run(){
         });
 
           //Delete
-          app.delete('/service/:id', async(req, res)=>{
+          app.delete('/product/:id', async(req, res)=>{
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const result = await furnitureCollection.deleteOne(query);
@@ -99,6 +99,7 @@ async function run(){
             if(email === decodedEmail){
                 const query = {email: email};
                 const cursor = itemCollection.find(query);
+                // const cursor = furnitureCollection.find(query);
                 const items = await cursor.toArray();
                 res.send(items);
             }
@@ -109,14 +110,12 @@ async function run(){
 
 
         app.post('/item', async(req, res)=>{
-            const order = req.body;
+            const item = req.body;
             const result = await itemCollection.insertOne(item);
+            // const result = await furnitureCollection.insertOne(item);
             res.send(result);
         })
 
-      
-       
-    
     }
     finally{
         
