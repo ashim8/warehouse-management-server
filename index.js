@@ -20,11 +20,9 @@ function verifyJWT(req, res, next){
         if(err){
             return res.status(403).send({message: 'Forbidden access'});
         }
-        console.log('decoded', decoded);
         req.decoded = decoded;
         next();
     })
-    // console.log('inside verifyJWT',authHeader);
    
 }
 
@@ -68,9 +66,7 @@ async function run(){
          // put item
          app.put('/product/:id', async (req, res) => {
             const id = req.params.id;
-            // console.log(id);
             const quantityUpdate = req.body;
-            // console.log(quantityUpdate);
             const query = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updateDoc = {
@@ -99,7 +95,6 @@ async function run(){
             if(email === decodedEmail){
                 const query = {email: email};
                 const cursor = itemCollection.find(query);
-                // const cursor = furnitureCollection.find(query);
                 const items = await cursor.toArray();
                 res.send(items);
             }
@@ -112,7 +107,6 @@ async function run(){
         app.post('/item', async(req, res)=>{
             const item = req.body;
             const result = await itemCollection.insertOne(item);
-            // const result = await furnitureCollection.insertOne(item);
             res.send(result);
         })
 
